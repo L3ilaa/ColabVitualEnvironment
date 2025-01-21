@@ -1,0 +1,39 @@
+"""If you need to install older versions of python e.g 3.6.6 that not supported by google colab 
+and your project needed the older versions of dependencies here is the way
+you can install a virtual environmetn on colab then install compatible dependencies"""
+
+# Install Miniconda
+!wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+!bash Miniconda3-latest-Linux-x86_64.sh -u -b -p /content/miniconda
+!rm Miniconda3-latest-Linux-x86_64.sh
+
+#Add Conda to PATH
+!ls /content/miniconda
+import os
+os.environ['PATH'] = f"/content/miniconda/bin:{os.environ['PATH']}"
+
+# Verify conda version
+!conda --version
+
+# Create a Python 3.6.6 Environment
+!conda create -n py366 python=3.6.6 -y
+
+!conda run -n py366 python --version
+
+# Downgrade pip version
+!conda run -n py366 python -m pip install --upgrade "pip<22"
+
+# Install Dependencies from requirements.txt
+# or install them manually
+!conda run -n py366 pip install numpy==1.19.2
+!conda run -n py366 pip install opencv_python==3.4.2.16
+!conda run -n py366 pip install Pillow==8.3.2
+!conda run -n py366 pip install PyYAML==5.4.1
+!conda run -n py366 pip install scikit_image==0.15.0
+!conda run -n py366 pip install visdom==0.1.8
+
+!conda run -n py366 pip install torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+!conda run -n py366 pip install torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+
+#Verify Installation
+!pip list
